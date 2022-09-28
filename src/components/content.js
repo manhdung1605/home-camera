@@ -4,6 +4,7 @@ import Devices from '../pages/devices';
 import Firmware from '../pages/firmwares';
 import Error from '../pages/error';
 import Dashboard from '../pages/dashboard';
+import Login from '../pages/login'
 
 const Content = () => {
     return <div>

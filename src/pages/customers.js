@@ -1,5 +1,5 @@
 import { Typography, Input, Table, Button, Drawer } from "antd";
-import { SearchOutlined, FileExcelFilled } from '@ant-design/icons';
+import { FileExcelFilled } from '@ant-design/icons';
 import './customers.css';
 import CustomerDetail from './customerDetail.js';
 import React, { useState } from 'react';

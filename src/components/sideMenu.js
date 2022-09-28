@@ -3,9 +3,7 @@ import { Layout, Menu, Typography } from 'antd';
 import { BiError, BiBarChartAlt, BiLogOut } from "react-icons/bi";
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
 const { Sider } = Layout
-
 const SideMenu = () => {
     const navigate = useNavigate()
     return <Sider trigger={null} theme="light" width='300px'>
@@ -43,15 +41,9 @@ const SideMenu = () => {
                     icon: <BiBarChartAlt />,
                     label: 'Dashboard Thống kê',
                 },
-                {
-                    key: '/login',
-                    icon: <BiLogOut />,
-                    label: 'Đăng xuất',
-                },
             ]}
         >
         </Menu>
     </Sider>
 }
-
 export default SideMenu;

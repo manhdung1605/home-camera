@@ -1,5 +1,4 @@
-import { Typography, Input, Button, Table } from "antd";
-import { SearchOutlined, FileExcelFilled } from '@ant-design/icons';
+import { Typography, Input, Table } from "antd";
 import './devices.css'
 import { useState } from "react";
 const Firmwares = () => {

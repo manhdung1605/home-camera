@@ -1,8 +1,6 @@
-import { Typography, Input, Button, Table } from "antd";
-import { SearchOutlined,FileExcelFilled  } from '@ant-design/icons';
+import { Typography, Input, Table } from "antd";
 import './customerDetail.css'
 const CustomerDetail = () =>{
-    const {Search} = Input;
     const data = [
         {   
             stt: 1,
