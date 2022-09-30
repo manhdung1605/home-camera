@@ -1,18 +1,24 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Typography } from 'antd';
-import {Link} from "react-router-dom"
+import { Button, Checkbox, Form, Input, Typography,message } from 'antd';
+import {Link, useNavigate} from "react-router-dom"
 import React from 'react';
 import './login.css'
 const Login = () => {
+    const navigate = useNavigate()
     const onFinish = (values) => {
         console.log('login account', values);
         if (values.username === "abc" && values.password === "123"){
             console.log('login successully');
-            <Link to="">Home</Link>
+            sessionStorage.setItem('usn', values.username);
+            message.success('Đăng nhập thành công !!!');
+            navigate("/")
         } else {
             console.log('login failed')
         }
     };
+    const handleRegister = () => {
+        navigate("/register")
+    }
 
     return (
         <div id='wrapper'>
@@ -64,7 +70,7 @@ const Login = () => {
                         <Button type="primary" htmlType="submit" className="login-form-button" style={{borderRadius: "10px", marginRight:"10px"}}>
                             Đăng nhập
                         </Button>
-                        <Button type="primary" className="login-form-button" style={{backgroundColor: "green", borderRadius: "10px"}}>
+                        <Button type="primary" className="login-form-button" style={{backgroundColor: "green", borderRadius: "10px"}} onClick={handleRegister}>
                             Đăng ký
                         </Button>
                     </Form.Item>
