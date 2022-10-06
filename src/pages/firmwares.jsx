@@ -231,12 +231,12 @@ const Firmwares = () => {
 
     const columns = [
         {
-            title: '#',
+            title: 'STT',
             dataIndex: 'stt',
             key: 'stt'
         },
         {
-            title: 'Mẫ thiết bị',
+            title: 'Mã thiết bị',
             dataIndex: 'deviceId',
             key: 'deviceId',
             filteredValue: [searchedDevice],

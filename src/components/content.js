@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import Custommers from '../pages/customers';
-import Devices from '../pages/devices';
-import Firmware from '../pages/firmwares';
-import Error from '../pages/error';
+import Custommers from '../pages/customers.jsx';
+import Devices from '../pages/devices.jsx';
+import Firmware from '../pages/firmwares.jsx';
+import Error from '../pages/error.jsx';
 import Dashboard from '../pages/dashboard';
-import Login from '../pages/login'
-import Home from '../pages/home';
+import Login from '../pages/login.jsx'
+import Home from '../pages/home.jsx';
 
 const Content = () => {
     return <div>

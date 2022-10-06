@@ -1,7 +1,7 @@
 import { Typography, Input, Table, Button, Drawer } from "antd";
 import { FileExcelFilled } from '@ant-design/icons';
 import './customers.css';
-import CustomerDetail from './customerDetail.js';
+import CustomerDetail from './customerDetail.jsx';
 import React, { useState } from 'react';
 import { Excel } from "antd-table-saveas-excel"
 

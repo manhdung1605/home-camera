@@ -1,6 +1,6 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Typography,message } from 'antd';
-import {Link, useNavigate} from "react-router-dom"
+import { useNavigate} from "react-router-dom"
 import React from 'react';
 import './login.css'
 const Login = () => {
