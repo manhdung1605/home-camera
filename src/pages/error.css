@@ -1,7 +1,9 @@
 .search{
     display: flex;
-    width: 1700px;
+    width: 1500px;
     margin-left: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
 .input,.button {    
