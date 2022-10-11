@@ -1,13 +1,7 @@
-import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space,Typography, -/9* } from "antd";
-im7port './error.css'
-i7mport { useState } from "react";
-import CRUDTable, {
-    Fields,
-    Field,
-    CreateForm,
-    UpdateForm,
-    DeleteForm
-} from "react-crud-table";
+import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space, Typography, Table } from "antd";
+import './error.css'
+import { useState } from "react";
+const { Option } = Select;
 const Error = () => {
     const { Search } = Input;
     const [rowPerPage, setRowPerPage] = useState(10);
@@ -372,6 +366,13 @@ const Error = () => {
         }
     ]
     const [open, setOpen] = useState(false);
+    const [idDevice, setIdDevice] = useState('');
+    const [typeDevice, setTypeDevice] = useState('');
+    const [mac, setMac] = useState();
+    const [idError, setIdError] = useState('');
+    const [dateTime, setDateTime] = useState('');
+    const [customer, setCustomer] = useState('');
+    const [description, setDescription] = useState('');
 
     const showDrawer = () => {
         setOpen(true);
@@ -381,49 +382,49 @@ const Error = () => {
         setOpen(false);
     };
 
+    const handleSubmit = () => {
+        console.log(idDevice)
+        console.log('submit')
+        setOpen(false)
+    }
+
     return <div>
         <Typography style={{ margin: "40px" }}>BÁO CÁO LỖI</Typography>
         <Drawer
-            title="Create a new account"
+            title="Thêm lỗi"
             width={720}
             onClose={onClose}
             open={open}
             bodyStyle={{
                 paddingBottom: 80,
             }}
-            extra={
-                <Space>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={onClose} type="primary">
-                        Submit
-                    </Button>
-                </Space>
-            }
         >
-            <Form layout="vertical" hideRequiredMark>
+            <Form layout="vertical" hideRequiredMark onFinish={handleSubmit}>
+              
                 <Row gutter={16}>
                     <Col span={12}>
                         <Form.Item
-                            name="name"
-                            label="Name"
+                            name="idDevice"
+                            label="Mã thiết bị"
+                            value="idDevice"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please enter user name',
+                                    message: 'Nhập mã thiết bị',
                                 },
                             ]}
                         >
-                            <Input placeholder="Please enter user name" />
+                            <Input placeholder="Nhập mã thiết bị" />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item
-                            name="url"
-                            label="Url"
+                            name="typeDevice"
+                            label="Loại thiết bị"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please enter url',
+                                    message: 'Nhập loại thiết bị',
                                 },
                             ]}
                         >
@@ -431,9 +432,9 @@ const Error = () => {
                                 style={{
                                     width: '100%',
                                 }}
-                                addonBefore="http://"
-                                addonAfter=".com"
-                                placeholder="Please enter url"
+                                // addonBefore="http://"
+                                // addonAfter=".com"
+                                placeholder="Nhập loại thiết bị"
                             />
                         </Form.Item>
                     </Col>
@@ -441,73 +442,64 @@ const Error = () => {
                 <Row gutter={16}>
                     <Col span={12}>
                         <Form.Item
-                            name="owner"
-                            label="Owner"
+                            name="mac"
+                            label="Địa chỉ MAC"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please select an owner',
+                                    message: 'Nhập địa chỉ mac',
                                 },
                             ]}
                         >
-                            <Select placeholder="Please select an owner">
-                                <Option value="xiao">Xiaoxiao Fu</Option>
-                                <Option value="mao">Maomao Zhou</Option>
-                            </Select>
+                            <Input placeholder="Nhập địa chỉ MAC" />
+
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item
-                            name="type"
-                            label="Type"
+                            name="idError"
+                            label="Mã lỗi"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please choose the type',
+                                    message: 'Nhập mã lỗi',
                                 },
                             ]}
                         >
-                            <Select placeholder="Please choose the type">
-                                <Option value="private">Private</Option>
-                                <Option value="public">Public</Option>
-                            </Select>
+                            <Input placeholder="Nhập mã lỗi" />
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={16}>
                     <Col span={12}>
                         <Form.Item
-                            name="approver"
-                            label="Approver"
+                            name="customer"
+                            label="Khách hàng"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please choose the approver',
+                                    message: 'Nhập tên khách hàng',
                                 },
                             ]}
                         >
-                            <Select placeholder="Please choose the approver">
-                                <Option value="jack">Jack Ma</Option>
-                                <Option value="tom">Tom Liu</Option>
-                            </Select>
+                            <Input placeholder="Nhập tên khách hàng" />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item
                             name="dateTime"
-                            label="DateTime"
+                            label="Ngày ghi nhận"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please choose the dateTime',
+                                    message: 'Nhập thời gian ghi nhận lỗi',
                                 },
                             ]}
                         >
-                            <DatePicker.RangePicker
+                            <DatePicker showTime
                                 style={{
                                     width: '100%',
                                 }}
-                                getPopupContainer={(trigger) => trigger.parentElement}
                             />
                         </Form.Item>
                     </Col>
@@ -516,18 +508,24 @@ const Error = () => {
                     <Col span={24}>
                         <Form.Item
                             name="description"
-                            label="Description"
+                            label="Chi tiết lỗi"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'please enter url description',
+                                    message: 'Ghi rõ chi tiết lỗi',
                                 },
                             ]}
                         >
-                            <Input.TextArea rows={4} placeholder="please enter url description" />
+                            <Input.TextArea rows={4} placeholder="Nhập chi tiết lỗi" />
                         </Form.Item>
                     </Col>
                 </Row>
+                <Space>
+                    <Button onClick={onClose}>Hủy bỏ</Button>
+                    <Button htmlType="submit" type="primary">
+                        Thêm mới
+                    </Button>
+                </Space>
             </Form>
         </Drawer>
         <div className="search" >
