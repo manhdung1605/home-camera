@@ -1,23 +1,17 @@
-import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space, Typography, Table, Modal, Popconfirm } from "antd";
+import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space, Typography, Table, Modal, Popconfirm, message } from "antd";
 import './error.css'
 import { useState } from "react";
 import { data } from "../fake-data/error"
-const { Option } = Select;
+import moment, { now } from "moment/moment";
 const Error = () => {
     const { Search } = Input;
-    const [open, setOpen] = useState(false);
-    const [idDevice, setIdDevice] = useState('');
-    const [typeDevice, setTypeDevice] = useState('');
-    const [mac, setMac] = useState();
-    const [idError, setIdError] = useState('');
-    const [dateTime, setDateTime] = useState('');
-    const [customer, setCustomer] = useState('');
-    const [description, setDescription] = useState('');
     const [rowPerPage, setRowPerPage] = useState(10);
     const [searchedDevice, setSearchedDevice] = useState('')
-    const [editRowKey, setEditRowKey] = useState('')
 
-    const [form] = Form.useForm()
+    const [openCreate, setOpenCreate] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [formCreate] = Form.useForm()
+    const [formEdit] = Form.useForm()
     const [form2] = Form.useForm()
 
     const handleChange = event => {
@@ -28,14 +22,13 @@ const Error = () => {
         {
             title: 'STT',
             dataIndex: 'stt',
-            editable: true,
             key: 'stt'
         },
         {
             title: 'Mã thiết bị',
             dataIndex: 'idDevice',
             key: 'idDevice',
-        editable: true,
+            editable: true,
             filteredValue: [searchedDevice],
             onFilter: (value, record) => {
                 return String(record.idDevice).toLowerCase().includes(value.toLowerCase());
@@ -72,77 +65,35 @@ const Error = () => {
         },
         {
             title: 'Khách hàng',
-            dataIndex: 'custommer',
+            dataIndex: 'customer',
             editable: true,
-            key: 'custommer'
+            key: 'customer'
         },
         {
             title: 'Hành động',
             dataIndex: 'action',
             key: 'action',
-            render: (text, record, index) => {
-                const editable = isEditing(record)
+            render: (_, record) => {
                 return <Space>
                     <Popconfirm
                         title="Bạn có chắc chắn muốn xóa ?"
-                        onConfirm={() => console.log('delete')}
+                        onConfirm={handleDelete}
                     >
-                        <Button danger type="primary" disabled={editable} >
+                        <Button danger type="primary">
                             Xóa
                         </Button>
                     </Popconfirm>
-                    {editable ? (
-                        <span>
-                            <Space size="middle" >
-                                <Button
-                                    onClick={e => save(record.key)}
-                                    type="primary"
-                                    style={{ marginRight: 8 }}
-                                >
-                                    Lưu
-                                </Button>
-                                <Popconfirm title="Bạn chắc chắn muốn hủy ?" onConfirm={cancel}>
-                                    <Button>Hủy</Button>
-                                </Popconfirm>
-                            </Space>
-                        </span>
-                    ) : (
-                        <Button onClick={() => edit(record)} type="primary">
-                            Sửa
-                        </Button>
-                    )}
-
+                    <Button type="primary" onClick={() => { showDrawerEdit(record) }} >
+                        Sửa
+                    </Button>
                 </Space >
             }
         }
     ]
 
-    const isEditing = (record) => {
-        return record.key === editRowKey;
-    }
-    const cancel = () => {
-        setEditRowKey('');
-
-    }
-    const save = () => {
-
-    }
-    const edit = (record) => {
-        form2.setFieldsValue({
-            idDevice: "",
-            typeDevice: "",
-            mac: "",
-            idError: "",
-            dateTime: "",
-            customer: "",
-            description: "",
-            ...record,
-        });
-        setEditRowKey(record.key);
-    }
-
-    const showDrawer = () => {
-        form.setFieldsValue({
+    // Open drawer
+    const showDrawerCreate = () => {
+        formCreate.setFieldsValue({
             idDevice: "",
             typeDevice: "",
             mac: "",
@@ -151,57 +102,27 @@ const Error = () => {
             customer: "",
             description: ""
         })
-        setOpen(true);
-        console.log("showDrawer");
+        setOpenCreate(true);
+        console.log("show Drawer Create");
     };
 
-    const mergedColumns = columns.map((col) => {
-        if (!col.editTable) {
-            return col;
-        } 
-        return {
-            ...col,
-            onCell: (record) => ({
-                record,
-                dataIndex: col.dataIndex,
-                title: col.title,
-                editing: isEditing(record),
-            }),
-        };
-    });
+    const showDrawerEdit = (record) => {
+        formEdit.setFieldsValue({
+            idDevice: record.idDevice,
+            typeDevice: record.typeDevice,
+            mac: record.mac,
+            idError: record.idError,
+            dateTime: moment(record.dateTime, 'DD/MM/YYYY hh:mm:ss'),
+            customer: record.customer,
+            description: record.description,
+        })
+        setOpenEdit(true);
+        console.log("show Drawer Edit ");
+    };
 
-    const EditableCell = ({
-        editing,
-        dataIndex,
-        title,
-        record,
-        children,
-        ...restProps
-    }) => {
-        const input = <Input />;
-        return (
-            <td {...restProps}>
-                {editing ? (
-                    <Form.Item
-                        name={dataIndex}
-                        style={{ margin: 0 }}
-                        rules={[
-                            {
-                                required: true,
-                                message: `Nhập ${title}`,
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                ) : (
-                    children
-                )}
-            </td>
-        )
-    }
-    const onClose = () => {
-        form.setFieldsValue({
+    // Close and reset drawer
+    const onCloseEdit = () => {
+        formEdit.setFieldsValue({
             idDevice: "",
             typeDevice: "",
             mac: "",
@@ -210,30 +131,50 @@ const Error = () => {
             customer: "",
             description: ""
         })
-        setOpen(false);
+        setOpenEdit(false)
+    };
+    const onCloseCreate = () => {
+        formCreate.setFieldsValue({
+            idDevice: "",
+            typeDevice: "",
+            mac: "",
+            idError: "",
+            dateTime: "",
+            customer: "",
+            description: ""
+        })
+        setOpenCreate(false)
     };
 
-    const handleSubmit = (e) => {
-        console.log(e.idDevice)
-        console.log('submit')
-        setOpen(false)
+    // Confirm Drawer
+    const onFinishCreate = (e) => {
+        console.log(`create ${e}`)
+        message.success("Tạo mỡi thành công")
+        setOpenCreate(false)
+    }
+    const onFinishEdit = (e) => {
+        console.log(`edit abc${e}`)
+        message.success("Chỉnh sửa thành công")
+        setOpenEdit(false)
+
     }
 
+    const handleDelete = () => {
+        console.log('delete')
+    }
 
-
-    return <div>
+    return <>
         <Typography style={{ margin: "40px" }}>BÁO CÁO LỖI</Typography>
         <Drawer
-            title=""
+            title="Tạo mới thông tin lỗi"
             width={720}
-            onClose={onClose}
-            open={open}
+            onClose={onCloseCreate}
+            open={openCreate}
             bodyStyle={{
                 paddingBottom: 80,
             }}
         >
-            <Form form={form} layout="vertical" hideRequiredMark onFinish={handleSubmit}>
-
+            <Form form={formCreate} layout="vertical" hideRequiredMark onFinish={onFinishCreate} >
                 <Row gutter={16}>
                     <Col span={12}>
                         <Form.Item
@@ -265,8 +206,6 @@ const Error = () => {
                                 style={{
                                     width: '100%',
                                 }}
-                                // addonBefore="http://"
-                                // addonAfter=".com"
                                 placeholder="Nhập loại thiết bị"
                             />
                         </Form.Item>
@@ -354,9 +293,144 @@ const Error = () => {
                     </Col>
                 </Row>
                 <Space>
-                    <Button onClick={onClose} type="danger">Hủy bỏ</Button>
+                    <Button onClick={onCloseCreate} type="danger">Hủy bỏ</Button>
                     <Button htmlType="submit" type="primary">
-                        Xác nhận
+                        Thêm mới
+                    </Button>
+                </Space>
+            </Form>
+        </Drawer>
+        <Drawer
+            title="Chỉnh sửa thông tin lỗi"
+            width={720}
+            onClose={onCloseEdit}
+            open={openEdit}
+            bodyStyle={{
+                paddingBottom: 80,
+            }}
+        >
+            <Form form={formEdit} layout="vertical" hideRequiredMark onFinish={onFinishEdit}>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            name="idDevice"
+                            label="Mã thiết bị"
+                            value="idDevice"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập mã thiết bị',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Nhập mã thiết bị" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            name="typeDevice"
+                            label="Loại thiết bị"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập loại thiết bị',
+                                },
+                            ]}
+                        >
+                            <Input
+                                style={{
+                                    width: '100%',
+                                }}
+                                placeholder="Nhập loại thiết bị"
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            name="mac"
+                            label="Địa chỉ MAC"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập địa chỉ mac',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Nhập địa chỉ MAC" />
+
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            name="idError"
+                            label="Mã lỗi"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập mã lỗi',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Nhập mã lỗi" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            name="customer"
+                            label="Khách hàng"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập tên khách hàng',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Nhập tên khách hàng" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            name="dateTime"
+                            label="Ngày ghi nhận"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập thời gian ghi nhận lỗi',
+                                },
+                            ]}
+                        >
+                            <DatePicker showTime
+                                style={{
+                                    width: '100%',
+                                }}
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col span={24}>
+                        <Form.Item
+                            name="description"
+                            label="Chi tiết lỗi"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Ghi rõ chi tiết lỗi',
+                                },
+                            ]}
+                        >
+                            <Input.TextArea rows={4} placeholder="Nhập chi tiết lỗi" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Space>
+                    <Button onClick={onCloseEdit} type="danger">Hủy bỏ</Button>
+                    <Button htmlType="submit" type="primary">
+                        Chỉnh sửa
                     </Button>
                 </Space>
             </Form>
@@ -378,25 +452,24 @@ const Error = () => {
                     setSearchedDevice(e.target.value)
                 }}
             />
-            <Button type="primary" onClick={showDrawer}>Tạo mới</Button>
+            <Button
+                type="primary"
+                onClick={showDrawerCreate}
+            >
+                Tạo mới
+            </Button>
         </div>
-        <Form form={form2} component={false} >
+        <Form form={form2}>
             <Table
-                components={{
-                    body: {
-                        cell: EditableCell,
-                    },
-                }}
                 dataSource={data}
-                columns={mergedColumns}            
+                columns={columns}
                 bordered
                 pagination={{
                     pageSize: rowPerPage
                 }}
-            >
-            </Table>
+            />
         </Form>
-    </div>
+    </>
 }
 
 export default Error;

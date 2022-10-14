@@ -5,7 +5,7 @@ import CustomerDetail from './customerDetail.jsx';
 import React, { useState } from 'react';
 import { Excel } from "antd-table-saveas-excel"
 
-const Custommers = () => {
+const Customers = () => {
     const [open, setOpen] = useState(false);
     const showDetail = () => {
         setOpen(true);
@@ -294,4 +294,4 @@ const Custommers = () => {
     </div>
 }
 
-export default Custommers;
+export default Customers;

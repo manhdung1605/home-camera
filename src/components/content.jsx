@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import Custommers from '../pages/customers.jsx';
+import Customers from '../pages/customers.jsx';
 import Devices from '../pages/devices.jsx';
 import Firmware from '../pages/firmwares.jsx';
 import Error from '../pages/error.jsx';
@@ -14,7 +14,7 @@ const Content = () => {
             <Route path='/firmware' element={<Firmware />}></Route>
             <Route path='/error' element={<Error />}></Route>
             <Route path='/dashboard' element={<Dashboard />}></Route>
-            <Route path='/' element={<Custommers />}></Route>
+            <Route path='/' element={<Customers />}></Route>
         </Routes>
     </div>
 }

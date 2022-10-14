@@ -1,234 +1,22 @@
-import { Typography, Input, Table } from "antd";
+import { Button, Col, Drawer, Form, Input, Row, Space, Typography, Table, Popconfirm, message } from "antd";
 import './devices.css'
 import { useState } from "react";
+import { data } from "../fake-data/firmwares"
 const Firmwares = () => {
     const { Search } = Input;
     const [rowPerPage, setRowPerPage] = useState(10);
     const [searchedDevice, setSearchedDevice] = useState('');
+
+    const [openCreate, setOpenCreate] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [formCreate] = Form.useForm()
+    const [formEdit] = Form.useForm()
+    const [form2] = Form.useForm()
+
     const handleChange = event => {
         setRowPerPage(event.target.value)
     }
-    const data = [
-        {
-            stt: 1,
-            deviceId: 'CNME000000001',
-            mac: '24:0B:2A:72:20:F5',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '1'
-        },
-        {
-            stt: 2,
-            deviceId: 'CNME0000000024',
-            mac: '24:0B:2A:72:20:F6',
-            version: 'D20220825_190000',
-            status: 'Chưa cập nhật',
-            key: '2'
-        },
-        {
-            stt: 3,
-            deviceId: 'CNME100000100',
-            mac: '24:0B:2A:72:20:F7',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '3'
-        },
-        {
-            stt: 4,
-            deviceId: 'CNME000000001',
-            mac: '24:0B:2A:72:20:F5',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '4'
-        },
-        {
-            stt: 5,
-            deviceId: 'CNME0000000024',
-            mac: '24:0B:2A:72:20:F6',
-            version: 'D20220825_190000',
-            status: 'Chưa cập nhật',
-            key: '5'
-        },
-        {
-            stt: 6,
-            deviceId: 'CNME100000100',
-            mac: '24:0B:2A:72:20:F7',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '6'
-        },
-        {
-            stt: 7,
-            deviceId: 'CNME000000001',
-            mac: '24:0B:2A:72:20:F5',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '7'
-        },
-        {
-            stt: 8,
-            deviceId: 'CNME0000000024',
-            mac: '24:0B:2A:72:20:F6',
-            version: 'D20220825_190000',
-            status: 'Chưa cập nhật',
-            key: '8'
-        },
-        {
-            stt: 9,
-            deviceId: 'CNME100000100',
-            mac: '24:0B:2A:72:20:F7',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '9'
-        },
-        {
-            stt: 10,
-            deviceId: 'CNME000000001',
-            mac: '24:0B:2A:72:20:F5',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '10'
-        },
-        {
-            stt: 11,
-            deviceId: 'CNME0000000024',
-            mac: '24:0B:2A:72:20:F6',
-            version: 'D20220825_190000',
-            status: 'Chưa cập nhật',
-            key: '11'
-        },
-        {
-            stt: 12,
-            deviceId: 'CNME100000100',
-            mac: '24:0B:2A:72:20:F7',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '12'
-        },
-        {
-            stt: 13,
-            deviceId: 'CNME000000001',
-            mac: '24:0B:2A:72:20:F5',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '13'
-        },
-        {
-            stt: 14,
-            deviceId: 'CNME0000000024',
-            mac: '24:0B:2A:72:20:F6',
-            version: 'D20220825_190000',
-            status: 'Chưa cập nhật',
-            key: '14'
-        },
-        {
-            stt: 15,
-            deviceId: 'CNME100000100',
-            mac: '24:0B:2A:72:20:F7',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '15'
-        },
-        {
-            stt: 16,
-            deviceId: 'CNME000000001',
-            mac: '24:0B:2A:72:20:F5',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '16'
-        },
-        {
-            stt: 17,
-            deviceId: 'CNME0000000024',
-            mac: '24:0B:2A:72:20:F6',
-            version: 'D20220825_190000',
-            status: 'Chưa cập nhật',
-            key: '17'
-        },
-        {
-            stt: 18,
-            deviceId: 'CNME100000100',
-            mac: '24:0B:2A:72:20:F7',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '18'
-        },
-        {
-            stt: 19,
-            deviceId: 'CNME000000001',
-            mac: '24:0B:2A:72:20:F5',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '19'
-        },
-        {
-            stt: 20,
-            deviceId: 'CNME0000000024',
-            mac: '24:0B:2A:72:20:F6',
-            version: 'D20220825_190000',
-            status: 'Chưa cập nhật',
-            key: '20'
-        },
-        {
-            stt: 21,
-            deviceId: 'CNME100000100',
-            mac: '24:0B:2A:72:20:F7',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '21'
-        },
-        {
-            stt: 22,
-            deviceId: 'CNME000000001',
-            mac: '24:0B:2A:72:20:F5',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '22'
-        },
-        {
-            stt: 23,
-            deviceId: 'CNME0000000024',
-            mac: '24:0B:2A:72:20:F6',
-            version: 'D20220825_190000',
-            status: 'Chưa cập nhật',
-            key: '23'
-        },
-        {
-            stt: 24,
-            deviceId: 'CNME100000100',
-            mac: '24:0B:2A:72:20:F7',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '24'
-        },
-        {
-            stt: 25,
-            deviceId: 'CNME000000001',
-            mac: '24:0B:2A:72:20:F5',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '25'
-        },
-        {
-            stt: 26,
-            deviceId: 'CNME0000000024',
-            mac: '24:0B:2A:72:20:F6',
-            version: 'D20220825_190000',
-            status: 'Chưa cập nhật',
-            key: '26'
-        },
-        {
-            stt: 27,
-            deviceId: 'CNME100000100',
-            mac: '24:0B:2A:72:20:F7',
-            version: 'D20220825_190000',
-            status: 'Mới nhất',
-            key: '27'
-        },
-
-
-    ]
-
+    
     const columns = [
         {
             title: 'STT',
@@ -237,11 +25,11 @@ const Firmwares = () => {
         },
         {
             title: 'Mã thiết bị',
-            dataIndex: 'deviceId',
-            key: 'deviceId',
+            dataIndex: 'idDevice',
+            key: 'idDevice',
             filteredValue: [searchedDevice],
             onFilter: (value, record) => {
-                return String(record.deviceId).toLowerCase().includes(value.toLowerCase())
+                return String(record.idDevice).toLowerCase().includes(value.toLowerCase())
             }
         },
         {
@@ -253,7 +41,8 @@ const Firmwares = () => {
             title: 'Phiên bản hiện tại',
             dataIndex: 'version',
             key: 'version'
-        }, {
+        },
+        {
             title: 'Trạng thái',
             dataIndex: 'status',
             key: 'status',
@@ -266,11 +55,258 @@ const Firmwares = () => {
             ],
             onFilter: (value, record) => record.status.includes(value),
         },
+        {
+            title: 'Hành động',
+            dataIndex: 'action',
+            key: 'action',
+            render: (_, record) => {
+                return <Space>
+                    <Popconfirm
+                        title="Bạn có chắc chắn muốn xóa ?"
+                        onConfirm={() => console.log('delete')}
+                    >
+                        <Button danger type="primary">
+                            Xóa
+                        </Button>
+                    </Popconfirm>
+                    <Button type="primary" onClick={() => { showDrawerEdit(record) }} >
+                        Sửa
+                    </Button>
+                </Space >
+            }
+        }
 
     ]
 
-    return <div>
+    // Open drawer
+    const showDrawerCreate = () => {
+        formCreate.setFieldsValue({
+            idDevice: "",
+            version: "",
+            mac: "",
+            status: "",
+        })
+        setOpenCreate(true);
+        console.log("show Drawer Create");
+    };
+
+    const showDrawerEdit = (record) => {
+        formEdit.setFieldsValue({
+            idDevice: record.idDevice,
+            version: record.version,
+            mac: record.mac,
+            status: record.status,
+        })
+        setOpenEdit(true);
+        console.log("show Drawer Edit ");
+    };
+
+    // Close and reset drawer
+    const onCloseEdit = () => {
+        formEdit.setFieldsValue({
+            idDevice: "",
+            version: "",
+            mac: "",
+            status: "",
+        })
+        setOpenEdit(false)
+    };
+    const onCloseCreate = () => {
+        formCreate.setFieldsValue({
+            idDevice: "",
+            version: "",
+            mac: "",
+            status: "",
+        })
+        setOpenCreate(false)
+    };
+
+    // Confirm Drawer
+    const onFinishCreate = (e) => {
+        console.log(`create ${e}`)
+        message.success("Tạo mỡi thành công")
+        setOpenCreate(false)
+    }
+    const onFinishEdit = (e) => {
+        console.log(`edit abc${e}`)
+        message.success("Chỉnh sửa thành công")
+        setOpenEdit(false)
+
+    }
+    
+
+    return <>
         <Typography style={{ margin: "40px" }}>QUẢN LÝ FIRMWARE</Typography>
+        <Drawer
+            title="Tạo mới thông tin firmware"
+            width={720}
+            onClose={onCloseCreate}
+            open={openCreate}
+            bodyStyle={{
+                paddingBottom: 80,
+            }}
+        >
+            <Form form={formCreate} layout="vertical" hideRequiredMark onFinish={onFinishCreate} >
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            name="idDevice"
+                            label="Mã thiết bị"
+                            value="idDevice"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập mã thiết bị',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Nhập mã thiết bị" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            name="version"
+                            label="Phiên bản hiện tại"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập phiên bản hiện tại',
+                                },
+                            ]}
+                        >
+                            <Input
+                                style={{
+                                    width: '100%',
+                                }}
+                                placeholder="Nhập phiên bản hiện tại"
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            name="mac"
+                            label="Địa chỉ MAC"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập địa chỉ mac',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Nhập địa chỉ MAC" />
+
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            name="status"
+                            label="Trạng thái"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập trạng thái',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Nhập trạng thái" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Space>
+                    <Button onClick={onCloseCreate} type="danger">Hủy bỏ</Button>
+                    <Button htmlType="submit" type="primary">
+                        Thêm mới
+                    </Button>
+                </Space>
+            </Form>
+        </Drawer>
+        <Drawer
+            title="Chỉnh sửa thông tin lỗi"
+            width={720}
+            onClose={onCloseEdit}
+            open={openEdit}
+            bodyStyle={{
+                paddingBottom: 80,
+            }}
+        >
+            <Form form={formEdit} layout="vertical" hideRequiredMark onFinish={onFinishEdit}>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            name="idDevice"
+                            label="Mã thiết bị"
+                            value="idDevice"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập mã thiết bị',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Nhập mã thiết bị" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            name="version"
+                            label="Phiên bản hiện tại"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập phiên bản hiện tại',
+                                },
+                            ]}
+                        >
+                            <Input
+                                style={{
+                                    width: '100%',
+                                }}
+                                placeholder="Nhập phiên bản hiện tại"
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col span={12}>
+                        <Form.Item
+                            name="mac"
+                            label="Địa chỉ MAC"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập địa chỉ mac',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Nhập địa chỉ MAC" />
+
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            name="status"
+                            label="Trạng thái"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Nhập trạng thái',
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Nhập trạng thái" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Space>
+                    <Button onClick={onCloseEdit} type="danger">Hủy bỏ</Button>
+                    <Button htmlType="submit" type="primary">
+                        Chỉnh sửa
+                    </Button>
+                </Space>
+            </Form>
+        </Drawer>
         <div className="search" >
             <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center' }}>
                 <Typography style={{ fontWeight: "bold" }}>Số lượng hiển thị</Typography>
@@ -289,17 +325,24 @@ const Firmwares = () => {
                 onSearch={value => setSearchedDevice(value)}
                 onChange={e => setSearchedDevice(e.target.value)}
             />
+            <Button
+                type="primary"
+                onClick={showDrawerCreate}
+            >
+                Tạo mới
+            </Button>
         </div>
-        <Table
-            dataSource={data}
-            columns={columns}
-            bordered
-            pagination={{
-                pageSize: rowPerPage
-            }}
-        >
-        </Table>
-    </div>
+        <Form form={form2}>
+            <Table
+                dataSource={data}
+                columns={columns}
+                bordered
+                pagination={{
+                    pageSize: rowPerPage
+                }}
+            />
+        </Form>
+    </>
 }
 
 export default Firmwares;

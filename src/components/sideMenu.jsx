@@ -11,7 +11,7 @@ const SideMenu = () => {
             console.log('log out')
             navigate(key)
         } else {
-            console.log(isLogOut)
+            // console.log(isLogOut)
             navigate(key)
         }
     }
