@@ -1,6 +1,6 @@
 import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space, Typography, Table, Modal, Popconfirm, message } from "antd";
 import './devices.css'
-import { data } from "../fake-data/devices"
+import { data } from "../../fake-data/devices"
 import { useState } from "react";
 import moment, { now } from "moment/moment";
 const Devices = () =>{

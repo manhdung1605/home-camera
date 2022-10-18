@@ -35,9 +35,6 @@ const SideMenu = () => {
             <Typography>Đăng xuất</Typography>
         </Popconfirm>
     }
-    const LogOut2 = () => {
-        
-    }
     const navigate = useNavigate()
     return <Sider trigger={null} theme="light" width='300px'>
         <Typography className='title' style={{ fontWeight: "bold" }}>
@@ -72,7 +69,7 @@ const SideMenu = () => {
                 {
                     key: '/dashboard',
                     icon: <BiBarChartAlt />,
-                    label: 'Dashboard Thống kê',
+                    label: 'Thống kê',
                 },
                 {
                     label: <LogOut />,

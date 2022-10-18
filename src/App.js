@@ -2,9 +2,9 @@ import React from 'react';
 import './App.css'
 
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
-import Login from './pages/login.jsx';
+import Login from './pages/auth/login/login.jsx';
 import Home from './pages/home.jsx';
-import Register from './pages/register';
+import Register from './pages/auth/register/register.jsx';
 import { useState, useEffect } from 'react';
 
 

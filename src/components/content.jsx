@@ -1,10 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
-import Customers from '../pages/customers.jsx';
-import Devices from '../pages/devices.jsx';
+import Customers from '../pages/customers/customers.jsx';
+import Devices from '../pages/devices/devices.jsx';
 import Firmware from '../pages/firmwares.jsx';
-import Error from '../pages/error.jsx';
-import Dashboard from '../pages/dashboard';
-import Login from '../pages/login.jsx'
+import Error from '../pages/error/error.jsx';
+import Dashboard from '../pages/dashboard/dashboard';
 import Home from '../pages/home.jsx';
 
 const Content = () => {

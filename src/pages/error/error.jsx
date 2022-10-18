@@ -1,7 +1,7 @@
 import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space, Typography, Table, Modal, Popconfirm, message } from "antd";
 import './error.css'
 import { useState } from "react";
-import { data } from "../fake-data/error"
+import { data } from "../../fake-data/error"
 import moment, { now } from "moment/moment";
 const Error = () => {
     const { Search } = Input;

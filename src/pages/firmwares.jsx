@@ -1,5 +1,5 @@
 import { Button, Col, Drawer, Form, Input, Row, Space, Typography, Table, Popconfirm, message } from "antd";
-import './devices.css'
+import './firmwares.css'
 import { useState } from "react";
 import { data } from "../fake-data/firmwares"
 const Firmwares = () => {
@@ -28,9 +28,9 @@ const Firmwares = () => {
             dataIndex: 'idDevice',
             key: 'idDevice',
             filteredValue: [searchedDevice],
-            onFilter: (value, record) => {
-                return String(record.idDevice).toLowerCase().includes(value.toLowerCase())
-            }
+            // onFilter: (value, record) => {
+            //     return String(record.idDevice).toLowerCase().includes(value.toLowerCase())
+            // }
         },
         {
             title: 'Địa chỉ MAC',
